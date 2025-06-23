@@ -1,108 +1,90 @@
-Relational Database CRUD Example (HarmonyOS)
+# Relational Database CRUD Example (HarmonyOS)
 
-This HarmonyOS application demonstrates how to perform database Create, Read, Update, and Delete (CRUD) operations using the @ohos.data.relationalStore module.
+This HarmonyOS application demonstrates how to use the @ohos.data.relationalStore module for database Create, Read, Update, and Delete (CRUD) operations.
 
-Feature Overview
+## Function Overview
 
-Core Features
-Database Initialization & Table Creation
+### Core Functions
+- Database initialization and table creation
+- Data CRUD operations:
+  - Insert data: Add sample employee records via buttons
+  - Delete data: Remove records with specific IDs
+  - Update data: Modify data that meets conditions
+  - Query data: Display all current employee information
 
-Data CRUD Operations:
-
-Insert Data: Add sample employee records via button
-
-Delete Data: Remove records with specific IDs
-
-Update Data: Modify qualifying data
-
-Query Data: Display all current employee information
-
-Data Structure Example
-
+### Data Structure Example
+```typescript
 interface Employee {
   id: number | null;
   name: string;
   age: number;
   salary: number;
   Codes: string;
+}
+```
 
-Quick Start
+## Quick Start
 
-System Requirements
-DevEco Studio 5.2 or higher
+### Running Requirements
+- DevEco Studio 5.2 or higher
+- HarmonyOS SDK API 14+
+- Devices or emulators supporting ArkUI
 
-HarmonyOS SDK API 14+
+### Deployment Steps
+1. Clone the project to your local machine:
+```bash
+git clone https://github.com/<your-username>/<your-repo>.git
+```
+2. Open the project directory with DevEco Studio
+3. Connect a device or start an emulator
+4. Click the run button ▶️ to install and launch the application
 
-ArkUI-supported device or emulator
+## Usage Instructions
 
-Deployment Steps
-Clone the project locally:
+### Interface Layout
+The application contains four main areas:
 
-      git clone https://github.com/<your-username>/<your-repo>.git
-   
-Open the project directory in DevEco Studio
+- Operation button area: Buttons for CRUD functions
+- Data display area: Employee data displayed in a table format
+```
+Serial Number | Name | Age | Salary | Codes
+```
 
-Connect device or launch emulator
+### Operation Flow
 
-Click Run button ▶️ to install and launch the application
+#### Adding Data
+1. Click the "Add" button
+2. Automatically create a new record with name, age, salary, and Codes fields
 
-Usage Instructions
+#### Deleting Data
+1. First view the ID of the target record in the table
+2. Click the "Delete" button (currently hardcoded to delete record with ID=2)
 
-Interface Layout
+#### Modifying Data
+1. Click the "Modify" button
+2. Update the Codes field to "Java" for all records with the name "zz"
 
-The application contains four main areas:  
-Action Button Area: CRUD function buttons  
+#### Querying Data
+1. Click the "View" button to refresh the data
+2. Automatically display the latest database records
 
-Data Display Area: Employee data displayed in table format  
+## Technical Implementation
 
-ID Name Age Salary
- Codes  
+### Key Components
+- relationalStore.RdbStore // Database management
+- relationalStore.RdbPredicates // Query condition construction
+- relationalStore.ResultSet // Result set processing
 
-Operation Flow
-Add Data:
+### Database Operation Encapsulation
+- Initialization: initRdbStore()
+- Insert: insert()
+- Delete: remove()
+- Update: update()
+- Query: query()
+- Result processing: processResultSet()
 
-Click "Add" button
-
-Automatically creates a new record with name, age, salary, and Codes fields
-Delete Data:
-
-First check the target record ID in the table
-
-Click "Delete" button (currently hardcoded to delete record with ID=2)
-Update Data:
-
-Click "Modify" button
-
-Updates the Codes field to "Java" for all records with name "zz"
-Query Data:
-
-Click "Query" button to refresh data
-
-Automatically displays latest database records
-
-Technical Implementation
-
-Key Components
-
-relationalStore.RdbStore // Database management
-relationalStore.RdbPredicates // Query condition construction
-relationalStore.ResultSet // Result set processing
-
-Encapsulated Database Operations
-Initialization: initRdbStore()
-
-Insert: insert()
-
-Delete: remove()
-
-Update: update()
-
-Query: query()
-
-Result Processing: processResultSet()
-
-Table Structure
-
+### Table Structure
+```sql
 CREATE TABLE IF NOT EXISTS EMPLOYEE (
   ID INTEGER PRIMARY KEY AUTOINCREMENT,
   NAME TEXT NOT NULL,
@@ -110,19 +92,19 @@ CREATE TABLE IF NOT EXISTS EMPLOYEE (
   SALARY REAL,
   Codes TEXT
 )
+```
 
-Custom Development
+## Custom Development
 
-Modify Table Structure
-Update SQL_CREATE_TABLE definition
+### Modifying Table Structure
+1. Update the SQL_CREATE_TABLE definition
+2. Modify the Employee interface type
+3. Adjust the processResultSet and UI display logic
 
-Modify Employee interface type
+### Implementing Conditional Deletion
+Modify the query conditions in the remove() method:
 
-Adjust processResultSet and UI display logic
-
-Implement Conditional Deletion
-
-Modify query conditions in the remove() method:
-
-// Example: Change to delete based on name
+```typescript
+// Example: Change to delete by name
 predicates.equalTo("NAME", "zz");
+```
